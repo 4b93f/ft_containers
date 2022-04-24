@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bst.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shyrno <shyrno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 15:58:12 by shyrno            #+#    #+#             */
-/*   Updated: 2021/12/24 19:04:30 by shyrno           ###   ########.fr       */
+/*   Updated: 2022/04/24 23:58:22 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <map>
 
 template<class T>
-struct btree 
+struct btree
 {
 	T content;
 	btree* left;

@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/24 14:11:12 by shyrno            #+#    #+#             */
-/*   Updated: 2022/04/24 22:11:26 by chly-huc         ###   ########.fr       */
+/*   Updated: 2022/04/25 00:05:53 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,16 @@ namespace ft
             btree* left;
             btree* right;
             btree* daddy;
-            btree()
+            #ifdef __linux__
+			    int trick_for_size;
+		    #endif
+            btree(): right(NULL), left(NULL), daddy(NULL)
             {
-                content = NULL;
-                left = NULL;
-                right = NULL;
+                
             }
-            btree(T x)
+            btree(T x): content(x), daddy(NULL), right(NULL), left(NULL)
             {
-                this->content = x;
-                this->left = NULL;
-                this->right = NULL;
-                this->daddy = NULL;
+      
             }
     };
     template<class T>
@@ -68,6 +66,8 @@ namespace ft
     template<class T>
     btree<T>* find_prev(btree<T>* node)
     {
+        if (!node)
+            return NULL;
         if (node->left)
             return max_value(node->left);
         btree<T> *tmp = node->daddy;

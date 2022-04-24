@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 15:58:40 by shyrno            #+#    #+#             */
-/*   Updated: 2022/04/24 22:46:01 by chly-huc         ###   ########.fr       */
+/*   Updated: 2022/04/25 00:12:20 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,36 +125,19 @@ void state(ft::vector<T> & x)
     
 #include <list>
 //typedef std::map<T1, T2>::value_type T3;
-
-// ERASE
-
-// int main()
-// {
-//     ft::map<char, int> ah;
-
-// 	for (unsigned int i = 0; i < 10; ++i)
-// 		ah.insert(ft::make_pair('a' + i, i));
-
-//     ft::map<char, int> test(ah.begin(), ah.end());
-
-//     test.erase(++test.begin());
-//     ft::map<char, int>::const_iterator it = test.begin(), ite = test.end();
-//     for (; it != ite; ++it)
-// 			std::cout << it.ptr->content.first << std::endl;
-//     return 0;
-// }
-
 int main()
 {
-    ft::map<int, std::string> map;
+    ft::map<int, char> test;
+	unsigned int lst_size = 7;
+	for (unsigned int i = 0; i < lst_size; ++i)
+		test.insert(ft::make_pair(lst_size - i, 'a' + i));
 
-    map[42] = "fgzgxfn";
-	map[25] = "funny";
-	map[80] = "hey";
-	map[12] = "no";
-	map[27] = "bee";
-	map[90] = "8";
-
-    map.inorder(map.tree);
+	ft::map<int, char> mp(test.begin(), test.end());
+	ft::map<int, char>::iterator it = mp.begin(), ite = mp.end();
+	std::cout << "[STEP]\n";
+	ft::map<int, char> mp_range(it, --(--ite));
+	for (int i = 0; it != ite; ++it)
+		it->second = ++i * 5;
+    mp.inorder(mp.tree);
     return 0;
 }

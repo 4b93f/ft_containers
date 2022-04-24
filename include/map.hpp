@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 04:58:44 by shyrno            #+#    #+#             */
-/*   Updated: 2022/04/24 22:45:51 by chly-huc         ###   ########.fr       */
+/*   Updated: 2022/04/25 00:02:01 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ namespace ft
             }
             ft::pair<iterator, bool> insert(const value_type& val)
             {
-                //std::cout << "[STEP 2]\n";
+
                 btree *tmp;
 
                 tmp = tree;
@@ -144,18 +144,16 @@ namespace ft
                 {
                     if (!root)
                     {
-                        //std::cout << "[STEP 3]\n";
                         tmp = new_node(val);
                         tmp->daddy = NULL;
                         tmp->left = NULL;
                         tmp->right = NULL;
+                        
                         root = tmp;
                         tree = tmp;
                         m_size++;
                         _end = tree->right;
-                        //std::cout << "[STEP 4]\n";
-                        return ft::make_pair(iterator(tmp), 1);
-                        
+                        return ft::make_pair(iterator(tmp), 1); 
                     }
                     if (val.first < tmp->content.first)
                     {
@@ -163,9 +161,11 @@ namespace ft
                         {
                             tmp->left = new_node(val);
                             tmp->left->daddy = tmp;
+                            tmp->left->left = NULL;
+                            tmp->left->right = NULL;
                             m_size++;
-                            _end = max_value(tree)->right;
-                            return ft::make_pair(iterator(tmp), 1);
+                            //_end = max_value(tree)->right;
+                            return ft::make_pair(iterator(tmp->left), 1);
                         }
                         tmp = tmp->left;
                     }
@@ -175,9 +175,11 @@ namespace ft
                         {
                             tmp->right = new_node(val);
                             tmp->right->daddy = tmp;
+                            tmp->right->left = NULL;
+                            tmp->right->right = NULL;
                             m_size++;
-                            _end = max_value(tree)->right;
-                            return ft::make_pair(iterator(tmp), 1);
+                            _end = max_value(root)->right;
+                            return ft::make_pair(iterator(tmp->right), 1);
                         }
                         tmp = tmp->right;
                     }
@@ -198,23 +200,12 @@ namespace ft
             {
                 btree *nodders;
 
-                nodders = root;
-
-                // if (!modCheck(nodders, k))
-                // {
-                //     std::cout << "before insert" << std::endl;
-                //     insert(ft::make_pair(k, 0));
-                // }
-                // return modCheck(nodders, k)->content.second;
+                nodders = tree;
                 iterator it = find(k);
 				if (it == _end)
-                {
-                    //std::cout << "[Totem not find token]" << std::endl;
 				    insert(ft::make_pair(k, T()));      
-                }
-                //std::cout << "[STEP 5]\n";
-				iterator popo = find(k);
-                return popo.ptr->content.second;
+				it = find(k);
+                return it.ptr->content.second;
             }
 
             btree *modCheck(btree *node, const key_type& k) const
@@ -321,6 +312,9 @@ namespace ft
             void clear()
             {
                 clear_tree(tree);
+                root = NULL;
+                tree = new_node(ft::make_pair(key_type(), mapped_type()));;
+                _end = tree;
             }
             void clear_tree(btree *node)
             {
@@ -368,17 +362,17 @@ namespace ft
                     return 1;
                 return 0;
             }
-            iterator find(const Key & key )
+            iterator find(const Key & key)
             {
-                iterator it(tree);
+                iterator it = begin();
 
                 while (it != end() && it->first != key)
                     it++;
                 return it;
             }
-            const_iterator find(const Key & key ) const
+            const_iterator find(const Key & key) const
             {
-                const_iterator it(tree);
+                const_iterator it = begin();
 
                 while (it != end() && it->first != key)
                     it++;
