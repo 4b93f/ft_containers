@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shyrno <shyrno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 15:58:40 by shyrno            #+#    #+#             */
-/*   Updated: 2022/04/03 19:18:28 by shyrno           ###   ########.fr       */
+/*   Updated: 2022/04/24 22:46:01 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,16 +125,36 @@ void state(ft::vector<T> & x)
     
 #include <list>
 //typedef std::map<T1, T2>::value_type T3;
+
+// ERASE
+
+// int main()
+// {
+//     ft::map<char, int> ah;
+
+// 	for (unsigned int i = 0; i < 10; ++i)
+// 		ah.insert(ft::make_pair('a' + i, i));
+
+//     ft::map<char, int> test(ah.begin(), ah.end());
+
+//     test.erase(++test.begin());
+//     ft::map<char, int>::const_iterator it = test.begin(), ite = test.end();
+//     for (; it != ite; ++it)
+// 			std::cout << it.ptr->content.first << std::endl;
+//     return 0;
+// }
+
 int main()
 {
-    //std::list<T3> lst;
-    ft::map<char, int> map;
+    ft::map<int, std::string> map;
 
-    map['a'] = 6;
-    map['b'] = 12;
+    map[42] = "fgzgxfn";
+	map[25] = "funny";
+	map[80] = "hey";
+	map[12] = "no";
+	map[27] = "bee";
+	map[90] = "8";
+
     map.inorder(map.tree);
-    // test.lower_bound(1)->second = 2;
-    // std::cout << test.size() << std::endl;
-	// test.upper_bound(7)->second = 842;
     return 0;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shyrno <shyrno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 04:58:44 by shyrno            #+#    #+#             */
-/*   Updated: 2022/04/03 20:34:19 by shyrno           ###   ########.fr       */
+/*   Updated: 2022/04/24 22:45:51 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ namespace ft
             };
             map()
             {
+                //std::cout << "[STEP 1]\n";
                 this->comp = key_compare();
                 m_alloc = Alloc();
                 root = NULL;
@@ -79,6 +80,7 @@ namespace ft
             template <class InputIterator>
             map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
             {
+                //std::cout << "[STEP 1]\n";
                 this->comp = comp;
                 this->m_alloc = alloc;
                 root = NULL;
@@ -99,9 +101,18 @@ namespace ft
             }
             map & operator=(const map & other)
             {
+                clear();
                 m_alloc = other.m_alloc;
-                m_size = other.m_size;
+                m_size = 0;
                 tree = other.tree;
+				const_iterator it = other.begin();
+				const_iterator ite = other.end();
+				while(it != ite)
+				{
+					this->insert(*it);
+					it++;
+				}
+				return (*this);
             }
             allocator_type get_allocator() const
             {
@@ -125,23 +136,26 @@ namespace ft
             }
             ft::pair<iterator, bool> insert(const value_type& val)
             {
+                //std::cout << "[STEP 2]\n";
                 btree *tmp;
 
                 tmp = tree;
-                //std::cout << "insert" << std::endl;
                 while (tmp != NULL)
                 {
                     if (!root)
                     {
+                        //std::cout << "[STEP 3]\n";
                         tmp = new_node(val);
                         tmp->daddy = NULL;
                         tmp->left = NULL;
+                        tmp->right = NULL;
                         root = tmp;
                         tree = tmp;
                         m_size++;
-                        _end = max_value(tree)->right;
-                        //std::cout << "root edit" << std::endl;
+                        _end = tree->right;
+                        //std::cout << "[STEP 4]\n";
                         return ft::make_pair(iterator(tmp), 1);
+                        
                     }
                     if (val.first < tmp->content.first)
                     {
@@ -171,7 +185,7 @@ namespace ft
                 return ft::make_pair(iterator(tmp), 0);
             }
             template <class InputIterator>
-            void insert (InputIterator first, InputIterator last)
+            void insert(InputIterator first, InputIterator last)
             {
                 std::cout << "insert" << std::endl;
                 while (first != last)
@@ -184,29 +198,27 @@ namespace ft
             {
                 btree *nodders;
 
-                nodders = tree;
-                // //inorder(nodders);
-                // //std::cout << "Thinkge" << std::endl;
+                nodders = root;
+
                 // if (!modCheck(nodders, k))
                 // {
-                //     //std::cout << "before insert" << std::endl;
+                //     std::cout << "before insert" << std::endl;
                 //     insert(ft::make_pair(k, 0));
                 // }
                 // return modCheck(nodders, k)->content.second;
                 iterator it = find(k);
 				if (it == _end)
                 {
-                    std::cout << "!" << std::endl;
-				    insert(ft::make_pair(k, 0));      
+                    //std::cout << "[Totem not find token]" << std::endl;
+				    insert(ft::make_pair(k, T()));      
                 }
-                inorder(nodders);
-				return modCheck(nodders, k)->content.second;
+                //std::cout << "[STEP 5]\n";
+				iterator popo = find(k);
+                return popo.ptr->content.second;
             }
 
             btree *modCheck(btree *node, const key_type& k) const
             {
-                //std::cout << "before modcheck" << std::endl;
-                //std::cout << node->content.second << std::endl;
                 if (!node || !node->content.first)
                     return NULL;
                 else if (node->content.first == k)
@@ -310,7 +322,7 @@ namespace ft
             {
                 clear_tree(tree);
             }
-            void clear_tree(btree * node)
+            void clear_tree(btree *node)
             {
                 if (node->left)
                     clear_tree(node->left);
@@ -332,7 +344,7 @@ namespace ft
             }
             void inorder(btree* root)
             {
-                if (!root) 
+                if (!root)
                     return;
                 inorder(root->left);
                 std::cout << "inorder == " << root->content.first << " " << root->content.second << std::endl;
