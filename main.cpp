@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shyrno <shyrno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 15:58:40 by shyrno            #+#    #+#             */
-/*   Updated: 2022/04/25 19:04:24 by shyrno           ###   ########.fr       */
+/*   Updated: 2022/04/25 22:42:38 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,25 +125,14 @@ void state(ft::vector<T> & x)
     
 #include <list>
 //typedef std::map<T1, T2>::value_type T3;
-void daddy_check()
-{
-    
-}
 int main()
 {
-    ft::map<int, char> test;
-	unsigned int lst_size = 7;
-	for (unsigned int i = 0; i < lst_size; ++i)
-		test.insert(ft::make_pair(lst_size - i, 'a' + i));
+    ft::map<int, std::string> mp;
 
-	ft::map<int, char> mp(test.begin(), test.end());
-	ft::map<int, char>::iterator it = mp.begin(), ite = mp.end();
-	std::cout << "[STEP]\n";
-	ft::map<int, char> mp_range(it, --(--ite));
-	// for (int i = 0; it != ite; ++it)
-	// 	it->second = ++i * 5;
-    
+    mp.insert(ft::make_pair(1, "xd"));
+    mp.insert(ft::make_pair(2, "xx"));
+    mp.insert(ft::make_pair(3, "ff"));
     mp.inorder(mp.root);
-    
+    mp.erase(mp.begin(), mp.end());
     return 0;
 }

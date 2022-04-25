@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shyrno <shyrno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 04:58:44 by shyrno            #+#    #+#             */
-/*   Updated: 2022/04/25 19:03:22 by shyrno           ###   ########.fr       */
+/*   Updated: 2022/04/25 23:12:24 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ namespace ft
             }
             ~map()
             {
-                clear();
+                    clear();
             }
             map & operator=(const map & other)
             {
@@ -97,6 +97,15 @@ namespace ft
 					it++;
 				}
 				return (*this);
+            }
+            void daddy_check(btree *node)
+            {
+                iterator ite = end();
+                while (ite != node)
+                {
+                    --ite;
+                    std::cout << ite.ptr->content.first << std::endl;
+                }
             }
             void init_constructor(const Compare &comp, const Alloc &alloc)
             {
@@ -123,57 +132,75 @@ namespace ft
             }
             iterator insert(iterator position, const value_type & val)
             {
-                std::cout << "insert" << std::endl;
                 (void)position;
                 (void)val;
-            }
-            // btree* _insert(btree *tree, const value_type & val)
-            // {
-            //     if (!tree || tree == _end)
-            //     {
-            //         btree* tmp = new_node(val);
-            //         last_insert = tmp;
-            //         if (tree ==_end)
-            //         {
-            //             tmp->right = _end;
-            //             _end->daddy = tmp;
-            //         }
-            //         m_size++;
-            //         return tmp;
-            //     }
-            //     // std::cout << val.first << std::endl;
+                btree *tmp;
+                bool end_change = 0;
                 
-            //     if (this->comp(val.first, tree->content.first))
-            //     {
-            //         tree->left = _insert(tree->left, val);
-            //         tree->left->daddy = tree;
-            //     }
-            //     else
-            //     {
-            //         tree->right = _insert(root->right, val);
-            //         tree->right->daddy = tree;
-            //     }
-            //     return tree;
-            // }
+                iterator it = find(val.first);
+                if (it != _end)
+                    return it;
+                tmp = root;
+                while (tmp != NULL)
+                {   
+                    if (!last_insert)
+                    {
+                        tmp = new_node(val);
+                        tmp->daddy = NULL;
+                        tmp->left = NULL;
+                        tmp->right = _end;
+                        
+                        root = tmp;
+                        last_insert = root;
+                        m_size++;
+                        _end->daddy = tmp;
+                        return iterator(tmp);
+                    }
+                    if (val.first < tmp->content.first)
+                    {
+                        if (!tmp->left)
+                        {
+                            tmp->left = new_node(val);
+                            tmp->left->daddy = tmp;
+                            tmp->left->left = NULL;
+                            tmp->left->right = NULL;
+                            m_size++;
+                            return iterator(tmp->left);
+                        }
+                        tmp = tmp->left;
+                    }
+                    else
+                    {
+                        if (!tmp->right || tmp->right == _end)
+                        {
+                            if (_end == tmp->right)
+                                end_change = 1;
+                            tmp->right = new_node(val);
+                            tmp->right->daddy = tmp;
+                            tmp->right->left = NULL;
+                            tmp->right->right = NULL;
+                            m_size++;        
+                            if (end_change == 1)
+                            {
+                                tmp->right->right = _end;
+                                _end->daddy = tmp->right;
+                            }
+                            return iterator(tmp->right);
+                        }
+                        tmp = tmp->right;
+                    }
+                }
+                return iterator(tmp);
+            }
             ft::pair<iterator, bool> insert(const value_type& val)
             {
-                // iterator it = find(val.first);
-
-                // if (it != _end)
-                // {
-                //     return ft::make_pair(it, 0);
-                // }
-                // _insert(this->root, val);
-                // if (root == _end)
-                // {
-                //     root = last_insert;
-                //     root->right = _end;
-                //     _end->daddy = root;
-                // }
-                // return ft::make_pair(iterator(last_insert), 1);
                 btree *tmp;
+                bool end_change = 0;
                 
                 tmp = root;
+                iterator it = find(val.first);
+                if (it != _end)
+                    return ft::make_pair(it, 0);
                 while (tmp != NULL)
                 {
                     if (!last_insert)
@@ -198,7 +225,6 @@ namespace ft
                             tmp->left->left = NULL;
                             tmp->left->right = NULL;
                             m_size++;
-                            //_end = max_value(tree)->right;
                             return ft::make_pair(iterator(tmp->left), 1);
                         }
                         tmp = tmp->left;
@@ -207,17 +233,18 @@ namespace ft
                     {
                         if (!tmp->right || tmp->right == _end)
                         {
+                            if (_end == tmp->right)
+                                end_change = 1;
                             tmp->right = new_node(val);
                             tmp->right->daddy = tmp;
                             tmp->right->left = NULL;
-                            if (tmp->right == _end)
+                            tmp->right->right = NULL;
+                            m_size++;        
+                            if (end_change == 1)
                             {
                                 tmp->right->right = _end;
                                 _end->daddy = tmp->right;
                             }
-                            else
-                                tmp->right->right = NULL;
-                            m_size++;
                             return ft::make_pair(iterator(tmp->right), 1);
                         }
                         tmp = tmp->right;
@@ -228,7 +255,6 @@ namespace ft
             template <class InputIterator>
             void insert(InputIterator first, InputIterator last)
             {
-                std::cout << "insert" << std::endl;
                 while (first != last)
                 {
                     insert(*first);
@@ -263,7 +289,8 @@ namespace ft
                 btree *node;
 
                 node = root;
-                _erase(node, k);
+                if (root)
+                    _erase(node, k);
                 return 1;
             }
             void erase(iterator position)
@@ -271,6 +298,8 @@ namespace ft
                 btree *node;
 
                 node = root;
+                if (!root)
+                    return;
                 _erase(node, position.ptr->content.first);
             }
             void erase(iterator first, iterator last)
@@ -278,6 +307,8 @@ namespace ft
                 btree *node;
 
                 node = root;
+                if (!root)
+                    return;
                 while (first != last)
                 {
                     _erase(node, first.ptr->content.first);
@@ -287,7 +318,7 @@ namespace ft
             btree *_erase(btree * node, const key_type & k)
             {
                 btree *tmp;
-                
+
                 if (k < node->content.first)
                     node->left = _erase(node->left, k);
                 else if (k > node->content.first)
@@ -315,8 +346,6 @@ namespace ft
                         tmp = node->right;
                         while (tmp && tmp->left)
                             tmp = tmp->left;
-                        // m_alloc.destroy(&node->content);
-			            // o_alloc.deallocate(node, 1);
                         m_alloc.construct(&node->content, tmp->content);
                         node->right = _erase(node->right, tmp->content.first);
                         m_size--;
@@ -478,8 +507,10 @@ namespace ft
                 allocator_type t_alloc = x.m_alloc;
                 size_type t_size = x.m_size;
                 btree *t_root = x.root;
+                btree *t_end = x._end;
                 btree *last_insert = x.last_insert;
                 Compare t_comp = x.comp;
+                
                 typename Alloc::template rebind<btree>::other t_o_alloc = x.o_alloc;
 
 
@@ -489,12 +520,15 @@ namespace ft
                 x.last_insert = last_insert;
                 x.comp = comp;
                 x.o_alloc = o_alloc;
+                x._end = _end;
                 
                 m_alloc = t_alloc; 
                 m_size = t_size;
                 root = t_root;
                 comp = t_comp;
                 o_alloc = t_o_alloc;
+                _end = t_end;
+                
             }
             allocator_type m_alloc;
             size_type m_size;
@@ -505,42 +539,40 @@ namespace ft
             typename Alloc::template rebind<btree>::other o_alloc;
             private:
     };
-    // template< class Key, class T, class Compare, class Alloc >
-	// bool operator==( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs ) 
-    // {
-	// 	if (lhs.size() != rhs.size())
-	// 		return false;
-	// 	return ft::equal(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
-	// }
-	// template< class Key, class T, class Compare, class Alloc >
-	// bool operator!=( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs ) 
-    // {
-    //     if (ft::equal(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()) && lhs.size() == rhs.size())
-	// 	    return false;
-    //     return true;
-	// }
-	// template< class Key, class T, class Compare, class Alloc >
-	// bool operator<( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs ) 
-    // {
-    //     (void)lhs;
-    //     (void)rhs;
-	// 	//return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
-	// }
-	// template< class Key, class T, class Compare, class Alloc >
-	// bool operator<=( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs ) 
-    // {
-	// 	return (lhs == rhs || lhs < rhs);
-	// }
-	// template< class Key, class T, class Compare, class Alloc >
-	// bool operator>( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs ) 
-    // {
-	// 	return !(lhs <= rhs);
-	// }
-	// template< class Key, class T, class Compare, class Alloc >
-	// bool operator>=( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs ) 
-    // {
-	// 	return !(lhs < rhs);
-	// }
+    template< class Key, class T, class Compare, class Alloc >
+	bool operator==( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs ) 
+    {
+		if (lhs.size() != rhs.size())
+			return false;
+		return ft::equal(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+	}
+	template< class Key, class T, class Compare, class Alloc >
+	bool operator!=( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs ) 
+    {
+        if (ft::equal(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()) && lhs.size() == rhs.size())
+		    return false;
+        return true;
+	}
+	template< class Key, class T, class Compare, class Alloc >
+	bool operator<( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs ) 
+    {
+		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+	}
+	template< class Key, class T, class Compare, class Alloc >
+	bool operator<=( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs ) 
+    {
+		return (lhs == rhs || lhs < rhs);
+	}
+	template< class Key, class T, class Compare, class Alloc >
+	bool operator>( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs ) 
+    {
+		return !(lhs <= rhs);
+	}
+	template< class Key, class T, class Compare, class Alloc >
+	bool operator>=( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs ) 
+    {
+		return !(lhs < rhs);
+	}
 }
 
 #endif
