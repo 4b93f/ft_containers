@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: shyrno <shyrno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 04:58:44 by shyrno            #+#    #+#             */
-/*   Updated: 2022/04/25 00:02:01 by chly-huc         ###   ########.fr       */
+/*   Updated: 2022/04/25 19:03:22 by shyrno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,22 +57,14 @@ namespace ft
             };
             map()
             {
-                //std::cout << "[STEP 1]\n";
-                this->comp = key_compare();
-                m_alloc = Alloc();
-                root = NULL;
-                m_size = 0;
-                tree = new_node(ft::make_pair(key_type(), mapped_type()));
-                _end = tree;
+                init_constructor(Compare(), Alloc());
             }
             map(const map& x)
             {
+                init_constructor(Compare(), Alloc());
                 m_alloc = x.m_alloc;
-                m_size = x.m_size;
                 comp = x.comp;
                 o_alloc = x.o_alloc;
-                root = NULL;
-                tree = new_node(ft::make_pair(key_type(), mapped_type()));
                 
                 for (const_iterator it = x.begin(); it != x.end(); it++)
                     insert(*it);
@@ -80,14 +72,7 @@ namespace ft
             template <class InputIterator>
             map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
             {
-                //std::cout << "[STEP 1]\n";
-                this->comp = comp;
-                this->m_alloc = alloc;
-                root = NULL;
-                m_size = 0;
-                m_alloc = Alloc();
-                tree = new_node(ft::make_pair(key_type(), mapped_type()));
-                _end = tree;
+                init_constructor(comp, alloc);
                 while (first != last)
                 {
                     insert(*first);
@@ -96,15 +81,14 @@ namespace ft
             }
             ~map()
             {
-                if (tree)
-                    clear();
+                clear();
             }
             map & operator=(const map & other)
             {
                 clear();
-                m_alloc = other.m_alloc;
-                m_size = 0;
-                tree = other.tree;
+                init_constructor(other.comp, other.m_alloc);
+                o_alloc = other.o_alloc;
+                
 				const_iterator it = other.begin();
 				const_iterator ite = other.end();
 				while(it != ite)
@@ -113,6 +97,15 @@ namespace ft
 					it++;
 				}
 				return (*this);
+            }
+            void init_constructor(const Compare &comp, const Alloc &alloc)
+            {
+                this->comp = comp;
+                this->m_alloc = alloc;
+                this->root = new_node(ft::make_pair(key_type(), mapped_type()));
+                this->last_insert = NULL;
+                this->_end = root;
+                m_size = 0;
             }
             allocator_type get_allocator() const
             {
@@ -134,25 +127,66 @@ namespace ft
                 (void)position;
                 (void)val;
             }
+            // btree* _insert(btree *tree, const value_type & val)
+            // {
+            //     if (!tree || tree == _end)
+            //     {
+            //         btree* tmp = new_node(val);
+            //         last_insert = tmp;
+            //         if (tree ==_end)
+            //         {
+            //             tmp->right = _end;
+            //             _end->daddy = tmp;
+            //         }
+            //         m_size++;
+            //         return tmp;
+            //     }
+            //     // std::cout << val.first << std::endl;
+                
+            //     if (this->comp(val.first, tree->content.first))
+            //     {
+            //         tree->left = _insert(tree->left, val);
+            //         tree->left->daddy = tree;
+            //     }
+            //     else
+            //     {
+            //         tree->right = _insert(root->right, val);
+            //         tree->right->daddy = tree;
+            //     }
+            //     return tree;
+            // }
             ft::pair<iterator, bool> insert(const value_type& val)
             {
+                // iterator it = find(val.first);
 
+                // if (it != _end)
+                // {
+                //     return ft::make_pair(it, 0);
+                // }
+                // _insert(this->root, val);
+                // if (root == _end)
+                // {
+                //     root = last_insert;
+                //     root->right = _end;
+                //     _end->daddy = root;
+                // }
+                // return ft::make_pair(iterator(last_insert), 1);
                 btree *tmp;
-
-                tmp = tree;
+                
+                tmp = root;
                 while (tmp != NULL)
                 {
-                    if (!root)
+                    if (!last_insert)
                     {
                         tmp = new_node(val);
                         tmp->daddy = NULL;
                         tmp->left = NULL;
-                        tmp->right = NULL;
+                        tmp->right = _end;
                         
                         root = tmp;
-                        tree = tmp;
+                        last_insert = root;
                         m_size++;
-                        _end = tree->right;
+                        _end->daddy = tmp;
                         return ft::make_pair(iterator(tmp), 1); 
                     }
                     if (val.first < tmp->content.first)
@@ -171,14 +205,19 @@ namespace ft
                     }
                     else
                     {
-                        if (!tmp->right)
+                        if (!tmp->right || tmp->right == _end)
                         {
                             tmp->right = new_node(val);
                             tmp->right->daddy = tmp;
                             tmp->right->left = NULL;
-                            tmp->right->right = NULL;
+                            if (tmp->right == _end)
+                            {
+                                tmp->right->right = _end;
+                                _end->daddy = tmp->right;
+                            }
+                            else
+                                tmp->right->right = NULL;
                             m_size++;
-                            _end = max_value(root)->right;
                             return ft::make_pair(iterator(tmp->right), 1);
                         }
                         tmp = tmp->right;
@@ -200,7 +239,7 @@ namespace ft
             {
                 btree *nodders;
 
-                nodders = tree;
+                nodders = root;
                 iterator it = find(k);
 				if (it == _end)
 				    insert(ft::make_pair(k, T()));      
@@ -223,7 +262,7 @@ namespace ft
             {
                 btree *node;
 
-                node = tree;
+                node = root;
                 _erase(node, k);
                 return 1;
             }
@@ -231,14 +270,14 @@ namespace ft
             {
                 btree *node;
 
-                node = tree;
+                node = root;
                 _erase(node, position.ptr->content.first);
             }
             void erase(iterator first, iterator last)
             {
                 btree *node;
 
-                node = tree;
+                node = root;
                 while (first != last)
                 {
                     _erase(node, first.ptr->content.first);
@@ -287,11 +326,11 @@ namespace ft
             }
             iterator begin()
             {
-                return iterator(min_value(tree));
+                return iterator(min_value(root));
             }
             const_iterator begin() const
             {
-                return const_iterator(min_value(tree));
+                return const_iterator(min_value(root));
             }
             reverse_iterator rbegin()
             {
@@ -311,10 +350,10 @@ namespace ft
             }
             void clear()
             {
-                clear_tree(tree);
+                clear_tree(root);
                 root = NULL;
-                tree = new_node(ft::make_pair(key_type(), mapped_type()));;
-                _end = tree;
+                root = new_node(ft::make_pair(key_type(), mapped_type()));;
+                _end = root;
             }
             void clear_tree(btree *node)
             {
@@ -438,29 +477,28 @@ namespace ft
             {
                 allocator_type t_alloc = x.m_alloc;
                 size_type t_size = x.m_size;
-                btree *t_tree = x.tree;
                 btree *t_root = x.root;
+                btree *last_insert = x.last_insert;
                 Compare t_comp = x.comp;
                 typename Alloc::template rebind<btree>::other t_o_alloc = x.o_alloc;
 
 
                 x.m_alloc = m_alloc;
                 x.m_size = m_size;
-                x.tree = tree;
                 x.root = root;
+                x.last_insert = last_insert;
                 x.comp = comp;
                 x.o_alloc = o_alloc;
                 
                 m_alloc = t_alloc; 
                 m_size = t_size;
-                tree = t_tree;
                 root = t_root;
                 comp = t_comp;
                 o_alloc = t_o_alloc;
             }
             allocator_type m_alloc;
             size_type m_size;
-            btree *tree;
+            btree *last_insert;
             btree *root;
             btree* _end;
             Compare comp;

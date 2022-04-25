@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: shyrno <shyrno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 15:58:40 by shyrno            #+#    #+#             */
-/*   Updated: 2022/04/25 00:12:20 by chly-huc         ###   ########.fr       */
+/*   Updated: 2022/04/25 19:04:24 by shyrno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,10 @@ void state(ft::vector<T> & x)
     
 #include <list>
 //typedef std::map<T1, T2>::value_type T3;
+void daddy_check()
+{
+    
+}
 int main()
 {
     ft::map<int, char> test;
@@ -136,8 +140,10 @@ int main()
 	ft::map<int, char>::iterator it = mp.begin(), ite = mp.end();
 	std::cout << "[STEP]\n";
 	ft::map<int, char> mp_range(it, --(--ite));
-	for (int i = 0; it != ite; ++it)
-		it->second = ++i * 5;
-    mp.inorder(mp.tree);
+	// for (int i = 0; it != ite; ++it)
+	// 	it->second = ++i * 5;
+    
+    mp.inorder(mp.root);
+    
     return 0;
 }

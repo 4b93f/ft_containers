@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: shyrno <shyrno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/24 14:11:12 by shyrno            #+#    #+#             */
-/*   Updated: 2022/04/25 00:05:53 by chly-huc         ###   ########.fr       */
+/*   Updated: 2022/04/25 06:06:16 by shyrno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ namespace ft
     btree<T>* max_value(btree<T>* node)
     {
         btree<T>* tmp = node;
-		while(tmp->right)
+		while(tmp && tmp->right)
 			tmp = tmp->right;
 		return tmp;
     }
