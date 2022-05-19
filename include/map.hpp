@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 04:58:44 by shyrno            #+#    #+#             */
-/*   Updated: 2022/04/25 23:12:24 by chly-huc         ###   ########.fr       */
+/*   Updated: 2022/05/19 20:00:06 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ namespace ft
             }
             ~map()
             {
-                    clear();
+                clear();
             }
             map & operator=(const map & other)
             {
@@ -216,7 +216,7 @@ namespace ft
                         _end->daddy = tmp;
                         return ft::make_pair(iterator(tmp), 1); 
                     }
-                    if (val.first < tmp->content.first)
+                    if (comp(val.first, tmp->content.first))
                     {
                         if (!tmp->left)
                         {
@@ -311,14 +311,13 @@ namespace ft
                     return;
                 while (first != last)
                 {
-                    _erase(node, first.ptr->content.first);
-                    first++;
+                    _erase(node, (first++).ptr->content.first);
                 }
             }
             btree *_erase(btree * node, const key_type & k)
             {
                 btree *tmp;
-
+                
                 if (k < node->content.first)
                     node->left = _erase(node->left, k);
                 else if (k > node->content.first)
@@ -355,6 +354,7 @@ namespace ft
             }
             iterator begin()
             {
+                //std::cout << "lol\n";
                 return iterator(min_value(root));
             }
             const_iterator begin() const
@@ -367,6 +367,7 @@ namespace ft
             }
             iterator end()
             {
+                //std::cout << "xd\n";
                 return iterator(_end);
             }
             const_iterator end() const
@@ -379,7 +380,8 @@ namespace ft
             }
             void clear()
             {
-                clear_tree(root);
+                if (root)
+                    clear_tree(root);
                 root = NULL;
                 root = new_node(ft::make_pair(key_type(), mapped_type()));;
                 _end = root;

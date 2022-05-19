@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 15:58:40 by shyrno            #+#    #+#             */
-/*   Updated: 2022/04/25 22:42:38 by chly-huc         ###   ########.fr       */
+/*   Updated: 2022/05/19 19:54:46 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,12 +127,16 @@ void state(ft::vector<T> & x)
 //typedef std::map<T1, T2>::value_type T3;
 int main()
 {
-    ft::map<int, std::string> mp;
+    // ft::map<int, std::string> mp;
+    // ft::map<int, std::string>::iterator it(mp.begin());
+    // ft::map<int, std::string>::const_iterator ite(mp.end());
 
-    mp.insert(ft::make_pair(1, "xd"));
-    mp.insert(ft::make_pair(2, "xx"));
-    mp.insert(ft::make_pair(3, "ff"));
-    mp.inorder(mp.root);
-    mp.erase(mp.begin(), mp.end());
+    //mp.insert(ft::make_pair(1, "xd"));
+    // mp.insert(ft::make_pair(2, "xx"));
+    // mp.insert(ft::make_pair(3, "ff"));
+    // mp.inorder(mp.root);
+   // mp.erase(mp.begin(), mp.end());
+   ft::vector<int> vct(100);
+   ft::vector<int>::const_iterator ite(vct.end());
     return 0;
 }
