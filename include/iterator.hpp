@@ -63,14 +63,6 @@ namespace ft
                 //std::cout << "creation\n";
                 _ptr = ptr;
             }
-            vectorIterator(const vectorIterator & src): _ptr(src._ptr)
-            { 
-                
-            }
-            vectorIterator(const vectorConstIterator<T> & src): _ptr(src._ptr)
-            { 
-                
-            }
             vectorIterator& operator=(const vectorIterator & rhs)
             {
                 _ptr = rhs._ptr;
@@ -140,42 +132,78 @@ namespace ft
             {
                 return vectorIterator(_ptr - n);
             }
-            friend bool operator==(const vectorIterator & lhs, const vectorIterator & rhs) 
-            {
-                if (lhs._ptr == rhs._ptr)
-                    return true;
-                return false;
-		    }
-		    friend bool operator!=(const vectorIterator & lhs, const vectorIterator & rhs)
-            {
-			    if (lhs._ptr != rhs._ptr)
-                    return true;
-                return false;
-		    }
-            friend bool operator<(const vectorIterator & lhs, const vectorIterator & rhs) 
-            {
-                if (lhs._ptr < rhs._ptr)
-                    return true;
-                return false;
-		    }
-            friend bool operator<=(const vectorIterator & lhs, const vectorIterator & rhs) 
-            {
-                if (lhs._ptr <= rhs._ptr)
-                    return true;
-                return false;
-		    }
-		    friend bool operator>(const vectorIterator & lhs, const vectorIterator & rhs)
-            {
-			    if (lhs._ptr > rhs._ptr)
-                    return true;
-                return false;
-		    }
-		    friend bool operator>=(const vectorIterator & lhs, const vectorIterator & rhs)
-            {
-			    if (lhs._ptr >= rhs._ptr)
-                    return true;
-                return false;
-		    }
+            bool operator==(const vectorIterator & rhs) const
+			{
+				if(this->_ptr == rhs._ptr)
+					return (1);
+				return (0);
+			}
+			bool operator==(const vectorConstIterator<T> & rhs) const
+			{
+				if(this->_ptr == rhs._ptr)
+					return (1);
+				return (0);
+			}
+			bool operator!=(const vectorIterator & rhs) const
+			{
+				if(this->_ptr != rhs._ptr)
+					return (1);
+				return (0);
+			}
+			bool operator!=(const vectorConstIterator<T> & rhs) const
+			{
+				if(this->_ptr != rhs._ptr)
+					return (1);
+				return (0);
+			}
+			bool operator>=(const vectorIterator & rhs) const
+			{
+				if(this->_ptr >= rhs._ptr)
+					return (1);
+				return (0);
+			}
+			bool operator>=(const vectorConstIterator<T> & rhs) const
+			{
+				if(this->_ptr >= rhs._ptr)
+					return (1);
+				return (0);
+			}
+			bool operator<=(const vectorIterator & rhs) const
+			{
+				if(this->_ptr <= rhs._ptr)
+					return (1);
+				return (0);
+			}
+			bool operator<=(const vectorConstIterator<T> & rhs) const
+			{
+				if(this->_ptr <= rhs._ptr)
+					return (1);
+				return (0);
+			}
+			bool operator<(const vectorIterator & rhs) const
+			{
+				if(this->_ptr < rhs._ptr)
+					return (1);
+				return (0);
+			}
+			bool operator<(const vectorConstIterator<T> & rhs) const
+			{
+				if(this->_ptr < rhs._ptr)
+					return (1);
+				return (0);
+			}
+			bool operator>(const vectorIterator & rhs) const
+			{
+				if(this->_ptr > rhs._ptr)
+					return (1);
+				return (0);
+			}
+			bool operator>(const vectorConstIterator<T> & rhs) const
+			{
+				if(this->_ptr > rhs._ptr)
+					return (1);
+				return (0);
+			}
             T* _ptr;
         private:
     };
@@ -183,10 +211,10 @@ namespace ft
 	struct vectorConstIterator : public ft::iterator<ft::random_access_iterator_tag, T, std::ptrdiff_t , T*, T&> 
     {
         public:
-            typedef std::ptrdiff_t difference_type;
-            typedef T value_type;
-            typedef T* pointer;
-            typedef T& reference;
+            typedef  std::ptrdiff_t difference_type;
+            typedef const T value_type;
+            typedef const T* pointer;
+            typedef const T& reference;
             typedef ft::random_access_iterator_tag iterator_category;
             vectorConstIterator()
             {
@@ -194,16 +222,16 @@ namespace ft
             }
             vectorConstIterator(T *ptr)
             {
-                //std::cout << "Please" << std::endl;
+                //std::cout << "1" << std::endl;
                 _ptr = ptr;
             }
             vectorConstIterator(const vectorConstIterator & src): _ptr(src._ptr)
             { 
-                
+                //std::cout << "2" << std::endl;
             }
             vectorConstIterator(const vectorIterator<T> & src): _ptr(src._ptr)
             { 
-                
+                //std::cout << "3" << std::endl;
             }
             vectorConstIterator& operator=(const vectorConstIterator & rhs)
             {
@@ -283,39 +311,39 @@ namespace ft
                 _ptr -= n;
                 return *this;
             }
-            friend bool operator==(const vectorConstIterator & lhs, const vectorConstIterator & rhs) 
+            bool operator==(const vectorConstIterator & lhs) const 
             {
-                if (lhs._ptr == rhs._ptr)
+                if (this->_ptr == lhs._ptr)
                     return true;
                 return false;
 		    }
-		    friend bool operator!=(const vectorConstIterator & lhs, const vectorConstIterator & rhs)
+		    bool operator!=(const vectorConstIterator & lhs) const
             {
-			    if (lhs._ptr != rhs._ptr)
+			    if (this->_ptr != lhs._ptr)
                     return true;
                 return false;
 		    }
-            friend bool operator<(const vectorConstIterator & lhs, const vectorConstIterator & rhs) 
+            bool operator<(const vectorConstIterator & lhs) const 
             {
-                if (lhs._ptr < rhs._ptr)
+                if (this->_ptr < lhs._ptr)
                     return true;
                 return false;
 		    }
-            friend bool operator<=(const vectorConstIterator & lhs, const vectorConstIterator & rhs) 
+            bool operator<=(const vectorConstIterator & lhs) const 
             {
-                if (lhs._ptr <= rhs._ptr)
+                if (this->_ptr <= lhs._ptr)
                     return true;
                 return false;
 		    }
-		    friend bool operator>(const vectorConstIterator & lhs, const vectorConstIterator & rhs)
+		    bool operator>(const vectorConstIterator & lhs) const
             {
-			    if (lhs._ptr > rhs._ptr)
+			    if (this->_ptr > lhs._ptr)
                     return true;
                 return false;
 		    }
-		    friend bool operator>=(const vectorConstIterator & lhs, const vectorConstIterator & rhs)
+		    bool operator>=(const vectorConstIterator & lhs) const
             {
-			    if (lhs._ptr >= rhs._ptr)
+			    if (this->_ptr >= lhs._ptr)
                     return true;
                 return false;
 		    }
@@ -417,7 +445,7 @@ namespace ft
             Iterator _iter;
     };
     template< class T >
-    struct mapIterator : public iterator<bidirectional_iterator_tag, T, std::ptrdiff_t, T*, T&>
+    struct mapIterator : public ft::iterator<bidirectional_iterator_tag, T, std::ptrdiff_t, T*, T&>
     {
         public:
             typedef std::ptrdiff_t difference_type;
@@ -434,26 +462,26 @@ namespace ft
             {
                 ptr = node;
             }
-            mapIterator(const mapIterator & src)
-            {
-                ptr = src.ptr;
-            }
-            virtual ~mapIterator()
-            {
-                
-            }
             mapIterator & operator=(const mapIterator & rhs)
             {
                 ptr = rhs.ptr;
                 return *this;
             }
-            friend bool operator==(const mapIterator & lhs, const mapIterator & rhs)
+            virtual ~mapIterator()
             {
-                return lhs.ptr == rhs.ptr;
+                
             }
-            friend bool operator!=(const mapIterator & lhs, const mapIterator & rhs)
+            mapIterator(const mapIterator & src)
             {
-                return lhs.ptr != rhs.ptr;
+                ptr = src.ptr;
+            }
+            bool operator==(const mapIterator & rhs) const
+            {
+                return this->ptr == rhs.ptr;
+            }
+            bool operator!=(const mapIterator & rhs) const
+            {
+                return this->ptr != rhs.ptr;
             }
             reference operator*() const
             {
@@ -505,9 +533,9 @@ namespace ft
             {
                 ptr = node;
             }
-            mapConstIterator(const mapConstIterator & src)
+            mapConstIterator(const mapConstIterator & src): ptr(src.ptr)
             {
-                ptr = src.ptr;
+                
             }
             mapConstIterator(const mapIterator<T> & src): ptr(src.ptr)
             { 
@@ -522,13 +550,13 @@ namespace ft
             {
                 
             }
-            friend bool operator==(const mapConstIterator & lhs, const mapConstIterator & rhs)
+            bool operator==(const mapConstIterator & rhs) const
             {
-                return lhs.ptr == rhs.ptr;
+                return this->ptr == rhs.ptr;
             }
-            friend bool operator!=(const mapConstIterator & lhs, const mapConstIterator & rhs)
+            bool operator!=(const mapConstIterator & rhs) const
             {
-                return lhs.ptr != rhs.ptr;
+                return this->ptr != rhs.ptr;
             }
             reference operator*() const
             {
@@ -568,39 +596,29 @@ namespace ft
 		    return (lhs.base() == rhs.base());
 	    }
         template< class Iterator1, class Iterator2 >
-        bool operator!=(const reverse_iterator<Iterator1> & lhs, const reverse_iterator<Iterator2> & rhs)
+        bool operator!=(const ft::reverse_iterator<Iterator1> & lhs, const ft::reverse_iterator<Iterator2> & rhs)
         {
-            if (lhs.base() != rhs.base())
-                return true;
-            return false;
+            return (lhs.base() != rhs.base());
         }
         template< class Iterator1, class Iterator2 >
-        bool operator<(const reverse_iterator<Iterator1> & lhs, const reverse_iterator<Iterator2> & rhs) 
+        bool operator<(const ft::reverse_iterator<Iterator1> & lhs, const ft::reverse_iterator<Iterator2> & rhs) 
         {
-            if (lhs.base() < rhs.base())
-                return true;
-            return false;
+            return (lhs.base() > rhs.base());
         }
         template< class Iterator1, class Iterator2 >
-        bool operator<=(const reverse_iterator<Iterator1> & lhs, const reverse_iterator<Iterator2> & rhs) 
+        bool operator<=(const ft::reverse_iterator<Iterator1> & lhs, const ft::reverse_iterator<Iterator2> & rhs) 
         {
-            if (lhs.base() <= rhs.base())
-                return true;
-            return false;
+            return (lhs.base() >= rhs.base());
         }
         template< class Iterator1, class Iterator2 >
-        bool operator>(const reverse_iterator<Iterator1> & lhs, const reverse_iterator<Iterator2> & rhs)
+        bool operator>(const ft::reverse_iterator<Iterator1> & lhs, const ft::reverse_iterator<Iterator2> & rhs)
         {
-            if (lhs.base() > rhs.base())
-                return true;
-            return false;
+            return (lhs.base() < rhs.base());
         }
         template< class Iterator1, class Iterator2 >
-        bool operator>=(const reverse_iterator<Iterator1> & lhs, const reverse_iterator<Iterator2> & rhs)
+        bool operator>=(const ft::reverse_iterator<Iterator1> & lhs, const ft::reverse_iterator<Iterator2> & rhs)
         {
-            if (lhs.base() >= rhs.base())
-                return true;
-            return false;
+            return (lhs.base() <= rhs.base());
         }
 
         template< class Iter >

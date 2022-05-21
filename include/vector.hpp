@@ -249,10 +249,12 @@ namespace ft
             }
             iterator begin()
             {
+                //std::cout << "it" << std::endl;
                 return iterator(container);
             }
             const_iterator begin() const
             {
+                //std::cout << "ite" << std::endl;
                 return const_iterator(container);
             }
             iterator end()

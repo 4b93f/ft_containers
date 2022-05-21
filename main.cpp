@@ -137,6 +137,6 @@ int main()
     // mp.inorder(mp.root);
    // mp.erase(mp.begin(), mp.end());
    ft::vector<int> vct(100);
-   ft::vector<int>::const_iterator ite(vct.end());
+   ft::vector<int>::const_iterator ite(vct.begin());
     return 0;
 }
