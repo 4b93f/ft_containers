@@ -6,7 +6,7 @@ MINE_OBJ	= $(MINE_SRC:.cpp=.o)
 REAL_OBJ	= $(REAL_SRC:.cpp=.o)
 CXX			= clang++
 RM			= rm -f
-CXXFLAGS	= -g3 -Wall -Wextra -Werror -std=c++98 -fsanitize=address -I .
+CXXFLAGS	= -g3 -Wall -Wextra -Werror -std=c++98 -I .
 
 all:		$(MINE) ${REAL}
 

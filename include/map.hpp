@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 04:58:44 by shyrno            #+#    #+#             */
-/*   Updated: 2022/05/19 20:00:06 by chly-huc         ###   ########.fr       */
+/*   Updated: 2022/05/21 20:01:23 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ namespace ft
         public:
             typedef Key key_type;
             typedef T mapped_type;
-            typedef ft::pair<const key_type, mapped_type> value_type;
+            typedef ft::pair<const Key, T> value_type;
             typedef Compare key_compare;
             typedef btree<value_type> btree;
             typedef Alloc allocator_type;
@@ -37,10 +37,10 @@ namespace ft
             typedef T const & const_reference;
             typedef size_t size_type;
             typedef ptrdiff_t difference_type;
-            typedef mapIterator<value_type> iterator;
-            typedef mapConstIterator<value_type> const_iterator;
-            typedef reverse_iterator<const_iterator> const_reverse_iterator;
-            typedef reverse_iterator<iterator> reverse_iterator;
+            typedef ft::mapIterator<value_type> iterator;
+            typedef ft::mapConstIterator<value_type> const_iterator;
+            typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
+            typedef ft::reverse_iterator<iterator> reverse_iterator;
             class value_compare: std::binary_function<value_type, value_type, bool>
             {  
                 protected:
@@ -61,7 +61,7 @@ namespace ft
             }
             map(const map& x)
             {
-                init_constructor(Compare(), Alloc());
+                init_constructor(x.comp, x.m_alloc);
                 m_alloc = x.m_alloc;
                 comp = x.comp;
                 o_alloc = x.o_alloc;
@@ -300,7 +300,7 @@ namespace ft
                 node = root;
                 if (!root)
                     return;
-                _erase(node, position.ptr->content.first);
+                erase(position.ptr->content.first);
             }
             void erase(iterator first, iterator last)
             {
@@ -309,10 +309,9 @@ namespace ft
                 node = root;
                 if (!root)
                     return;
+                iterator copy = first;
                 while (first != last)
-                {
-                    _erase(node, (first++).ptr->content.first);
-                }
+                    erase((first++).ptr->content.first);
             }
             btree *_erase(btree * node, const key_type & k)
             {
@@ -354,7 +353,6 @@ namespace ft
             }
             iterator begin()
             {
-                //std::cout << "lol\n";
                 return iterator(min_value(root));
             }
             const_iterator begin() const
@@ -373,6 +371,10 @@ namespace ft
             const_iterator end() const
             {
                 return const_iterator(_end);
+            }
+            reverse_iterator rend()
+            {
+                return reverse_iterator(begin());
             }
             const_reverse_iterator rend() const
             {
@@ -396,6 +398,13 @@ namespace ft
                 o_alloc.deallocate(node, 1);
                 m_size = 0;
             }
+            void free_node(btree *node)
+			{
+				if(node == NULL)
+					return;
+				m_alloc.destroy(&node->content);
+				o_alloc.deallocate(node, 1);
+			}
             btree *new_node(const value_type & val)
             {
                 btree *new_node = o_alloc.allocate(1);
