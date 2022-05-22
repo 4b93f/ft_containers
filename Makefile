@@ -3,15 +3,18 @@ REAL		= std_container
 MINE_SRC	= main.cpp
 REAL_SRC	= real_main.cpp
 MINE_OBJ	= $(MINE_SRC:.cpp=.o)
-REAL_OBJ	= $(REAL_SRC:.cpp=.o)
-CXX			= clang++
+REAL_OBJ	= std_main.o
+CXX			= c++
 RM			= rm -f
-CXXFLAGS	= -g3 -Wall -Wextra -Werror -std=c++98 -I .
+CXXFLAGS	= -g3 -Wall -Wextra -Werror -std=c++98 -fsanitize=address -I .
 
 all:		$(MINE) ${REAL}
 
+std_main.o:
+			${CXX} -D ACCESS=std ${CXXFLAGS} -c main.cpp -o std_main.o
+
 %.o: %.cpp
-			$(CXX) $(CXXFLAGS) -c $< -o $@
+			$(CXX) -D ACCESS=ft $(CXXFLAGS) -c $< -o $@
 			
 $(MINE):	$(MINE_OBJ)
 			@echo "Compiling program with my container..."

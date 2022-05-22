@@ -6,135 +6,293 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 15:58:40 by shyrno            #+#    #+#             */
-/*   Updated: 2022/05/21 20:01:10 by chly-huc         ###   ########.fr       */
+/*   Updated: 2022/05/22 15:15:53 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/header.hpp"
 
-//fonctionne pas
-    // start = map.lower_bound(2);
-    // end = map.lower_bound(6);
-    // std::cout << end->first << std::endl;
-    // ft::map<int, std::string> copy(start, end)
+// template <class T>
+// void	print(ACCESS::vector<ACCESS::vector<T> >& lst)
+// {
+// 	for (typename ACCESS::vector<ACCESS::vector<T> >::iterator it = lst.begin(); it != lst.end(); it++)
+// 	{
+// 		for (typename ACCESS::vector<T>::iterator it2 = it->begin(); it2 != it->end(); it2++)
+// 			std::cout << *it2 << ' ';
+// 		std::cout << '\n';
+// 	}
+// }
 
+// template <class T>
+// void	print(ACCESS::vector<T>& lst)
+// {
+// 	for (typename ACCESS::vector<T>::iterator it = lst.begin(); it != lst.end(); it++)
+// 		std::cout << *it << ' ';
+// 	std::cout << '\n';
+// }
+// class Awesome {
 
-    // verification de doublon, quand key == 0
+// 	public:
 
+// 		Awesome( void ) : _n( 42 ) { std::cout << "Default constructor" << std::endl; } //should not happen too often or else there is a wrong use of allocator (which calls the copy constructor)
+// 		Awesome( int n ) : _n( n ) { std::cout << "Int constructor" << std::endl; (void)n; }
+// 		Awesome( Awesome const &rhs ) : _n( 42 ) { *this = rhs;}
+// 		virtual ~Awesome(void) {}
 
-//size
-template<typename T>
-void print_container(ft::vector<T> & container)
-{
-    for(size_t i = 0; i < container.size(); i++)
-        std::cout << "Container[" << i << "] = " <<container[i] << " " << std::endl;
-    std::cout << std::endl;
-}
+// 		Awesome &operator=( Awesome const & rhs ) { this->_n = rhs._n; return (*this); }
+// 		bool operator==( Awesome const & rhs ) const { return (this->_n == rhs._n); }
+// 		bool operator!=( Awesome const & rhs ) const { return (this->_n != rhs._n); }
+// 		bool operator>( Awesome const & rhs ) const { return (this->_n > rhs._n); }
+// 		bool operator<( Awesome const & rhs ) const { return (this->_n < rhs._n); }
+// 		bool operator>=( Awesome const & rhs ) const { return (this->_n >= rhs._n); }
+// 		bool operator<=( Awesome const & rhs ) const { return (this->_n <= rhs._n); }
+// 		void operator+=(int rhs){ _n += rhs; }
+// 		int get( void ) const { return this->_n; }
 
-template<typename T>
-void state(ft::vector<T> & x)
-{
-    std::cout << "<-------------------->" << std::endl;
-    std::cout << "[ACTUAL STATE]" << std::endl;
-    std::cout << "Container content : " << std::endl;
-    print_container(x);
-    std::cout << "Size : " << x.size() << std::endl;
-    std::cout << "Capacity : " << x.capacity() << std::endl;
-    std::cout << "Empty ? : " << x.empty() << std::endl;
-    
-    std::cout << "<-------------------->" << std::endl << std::endl;
-}
+// 	private:
+
+// 		int _n;
+// };
+
+// std::ostream & operator<<( std::ostream & o, Awesome const & rhs ) { o << rhs.get(); return o; }
+
+// template <class T>
+// void	print_vector(ACCESS::vector<T> &test)
+// {
+// 	typename ACCESS::vector<T>::iterator		beg = test.begin();
+// 	typename ACCESS::vector<T>::iterator		end = test.end();
+// 	std::cout << "size : " << test.size() << ", capacity : " << test.capacity() << std::endl;
+// 	for (typename ACCESS::vector<T>::iterator it = beg; it != end; it++)
+// 	{
+// 		std::cout << *it << " ";
+// 		if (((it - beg) % 10 == 9) && it > beg)
+// 			std::cout << std::endl;
+// 	}
+// 	std::cout << std::endl;
+// }
+
+// template <class T>
+// void	push_pop_back_tests(void)
+// {
+// 	std::cout << std::endl << "PUSH BACK & POP BACK TESTS" << std::endl;
+// 	ACCESS::vector<T> test;
+
+// 	std::cout << "Empty ? " << test.empty() << " / Capacity : " << test.capacity() << " / Size : " << test.size() << std::endl;
+// 	for (size_t i = 0; i < 51; i++)
+// 	{
+// 		test.push_back(i);
+// 		std::cout << test.size() << ": " << test.capacity() << " - ";
+// 		if (!(i % 10) && i != 0)
+// 			std::cout << std::endl;
+// 	}
+// 	print_vector<T>(test);
+// 	test.pop_back();
+// 	test.pop_back();
+// 	test.pop_back();
+// 	test.pop_back();
+// 	print_vector<T>(test);
+// }
+
+// template <class T>
+// void	resize_tests(void)
+// {
+// 	std::cout << std::endl << "RESIZE TESTS" << std::endl;
+// 	ACCESS::vector<T> test(12, 12);
+
+// 	test.resize(72);
+// 	std::cout << "s: " << test.size() << ", c: " << test.capacity() << std::endl;
+// 	test.resize(100);
+// 	std::cout << "s: " << test.size() << ", c: " << test.capacity() << std::endl;
+// 	test.resize(4170);
+// 	std::cout << "s: " << test.size() << ", c: " << test.capacity() << std::endl;
+// 	test.resize(171, 12);
+// 	std::cout << "s: " << test.size() << ", c: " << test.capacity() << std::endl;
+// 	test.resize(62);
+// 	std::cout << "s: " << test.size() << ", c: " << test.capacity() << std::endl;
+// }
+
+// template <class T>
+// void	insert_tests()
+// {
+// 	std::cout << std::endl << "INSERT TESTS" << std::endl;
+// 	ACCESS::vector<T> test(1, 1);
+// 	ACCESS::vector<T> test2(5, 5);
+
+// 	print_vector<T>(test);
+// 	test.insert(test.begin(), 200, 12);
+// 	print_vector<T>(test);
+// 	test.insert(test.begin() + 12, 200, 30);
+// 	print_vector<T>(test);
+// 	test.insert(test.end(), 12, 50);
+// 	print_vector<T>(test);
+// 	test.insert(test.end() - 1, 0, 60);
+// 	print_vector<T>(test);
+// 	test.insert(test.end() - 1, 1, 70);
+// 	print_vector<T>(test);
+// 	test.insert(test.begin() + 412, test2.begin(), test2.end());
+// 	print_vector<T>(test);
+// 	test.insert(test.begin() + 6, test2.begin(), test2.end());
+// 	print_vector<T>(test);
+// 	test.insert(test.end(), test2.begin(), test2.end());
+// 	print_vector<T>(test);
+// }
+
+// template <class T>
+// void	reserve_tests(void)
+// {
+// 	std::cout << std::endl << "RESERVE TESTS" << std::endl;
+// 	ACCESS::vector<T> test(65, 7);
+// 	std::cout << "s: " << test.size() << ", c: " << test.capacity() << std::endl;
+// 	test.reserve(12);
+// 	std::cout << "s: " << test.size() << ", c: " << test.capacity() << std::endl;
+// 	test.reserve(66);
+// 	std::cout << "s: " << test.size() << ", c: " << test.capacity() << std::endl;
+// 	test.reserve(128);
+// 	std::cout << "s: " << test.size() << ", c: " << test.capacity() << std::endl;
+// 	test.reserve(1023);
+// 	std::cout << "s: " << test.size() << ", c: " << test.capacity() << std::endl;
+// 	test.reserve(10252);
+// 	std::cout << "s: " << test.size() << ", c: " << test.capacity() << std::endl;
+// 	try
+// 	{
+// 		test.reserve(test.max_size() + 1);
+// 	}
+// 	catch(std::length_error &le)
+// 	{
+// 		std::cout << "length error" << std::endl;
+// 	}
+// 	catch(std::exception &e)
+// 	{
+// 		std::cout << "error : " << e.what() << std::endl;
+// 	}
+// 	print_vector<T>(test);
+// }
+
+// template <class T>
+// void	copy_swap_tests(void)
+// {
+// 	std::cout << std::endl << "COPY && SWAP TESTS" << std::endl;
+// 	ACCESS::vector<T> test;
+// 	for (size_t i = 0; i < 50; i++) { test.push_back(i); }
+// 	print_vector<T>(test);
+// 	ACCESS::vector<T> test_copy(test);
+// 	for (size_t i = 0; i < test_copy.size(); i++) { test_copy[i] += 100; }
+// 	print_vector<T>(test_copy);
+// 	ACCESS::vector<T> test_range(test.begin() + 20, test.begin() + 30);
+// 	print_vector<T>(test_range);
+// 	test_copy.swap(test);
+// 	print_vector<T>(test);
+// 	print_vector<T>(test_copy);
+// 	test_copy.swap(test_range);
+// 	print_vector<T>(test_range);
+// 	print_vector<T>(test_copy);
+// 	test.swap(test_copy);
+// 	print_vector<T>(test);
+// 	print_vector<T>(test_copy);
+// }
+
+// template <class T>
+// void	reverse_it_tests(void)
+// {
+// 	std::cout << std::endl << "REVERSE IT TESTS" << std::endl;
+// 	ACCESS::vector<T> test;
+// 	for (size_t i = 0; i < 12; i++) { test.push_back(i); }
+// 	typename ACCESS::vector<T>::reverse_iterator		revbeg = test.rbegin();
+// 	for (typename ACCESS::vector<T>::reverse_iterator it = revbeg; it != test.rend(); it++)
+// 	{
+// 		std::cout << *it << " ";
+// 		if (!((revbeg - it) % 10) && it != revbeg)
+// 			std::cout << std::endl;
+// 	}
+// 	std::cout << *(test.rbegin() + 2) << std::endl;
+// 	std::cout << *(test.rend() - 8) << std::endl;
+// 	std::cout << (test.rbegin() == revbeg) << std::endl;
+// 	revbeg++;
+// 	std::cout << *revbeg << std::endl;
+// 	std::cout << (test.rbegin() == test.rend()) << std::endl;
+// 	std::cout << (test.rbegin() <= test.rbegin()) << std::endl;
+// 	std::cout << (test.rbegin() < test.rend()) << std::endl;
+// 	std::cout << (test.rbegin() >= test.rend()) << std::endl;
+// 	revbeg += 3;
+// 	std::cout << *revbeg << std::endl;
+// 	std::cout << std::endl;
+// }
+
+// template <class T>
+// void	erase_clear_tests(void)
+// {
+// 	std::cout << std::endl << "ERASE && CLEAR TESTS" << std::endl;
+// 	ACCESS::vector<T> test(31, 12);
+// 	test.erase(test.begin(), test.begin() + 5);
+// 	print_vector<T>(test);
+// 	test.erase(test.begin() + 12, test.begin() + 16);
+// 	print_vector<T>(test);
+// 	test.clear();
+// 	print_vector<T>(test);
+// }
+
+// void	max_size_tests(void)
+// {
+// 	std::cout << std::endl << "MAX SIZE TESTS" << std::endl;
+// 	ACCESS::vector<int> test(31, 12);
+// 	ACCESS::vector<std::string> test2;
+// 	ACCESS::vector<long long int> test3;
+// 	ACCESS::vector<Awesome> test4;
+// 	ACCESS::vector<unsigned int> test5(12, 340);
+// 	std::cout << test.max_size() << std::endl;
+// 	std::cout << test2.max_size() << std::endl;
+// 	std::cout << test3.max_size() << std::endl;
+// 	std::cout << test4.max_size() << std::endl;
+// 	std::cout << test5.max_size() << std::endl;
+// }
+
+// void	awesome_tests(void)
+// {
+// 	std::cout << std::endl << "AWESOME TESTS" << std::endl;
+// 	ACCESS::vector<Awesome> test(21, 12);
+// 	print_vector<Awesome>(test);
+// 	ACCESS::vector<Awesome> test2;
+// 	print_vector<Awesome>(test2);
+// 	test2.push_back(12);
+// 	test2.push_back(8);
+// 	test2.push_back(16);
+// 	print_vector<Awesome>(test2);
+// 	std::cout << "SAME ?" << (test.begin() + 1 == test2.begin() + 1) << std::endl;
+// 	test.assign(test2.begin(), test2.end());
+// 	print_vector<Awesome>(test);
+// 	test = test2;
+// 	print_vector<Awesome>(test);
+// 	std::cout << "SAME ?" << (test.begin() + 1 == test2.begin() + 1) << std::endl;
+// 	test.insert(test.end(), test2.begin(), test2.end());
+// 	print_vector<Awesome>(test);
+// 	test.insert(test.begin(), test2.begin(), test2.end());
+// 	test2 = test;
+// 	print_vector<Awesome>(test);
+// 	std::cout << "end awesome test" << std::endl;
+// }
 
 // int main()
 // {
-//     ft::vector<int> foo;
-//     ft::vector<int>::const_iterator it_foo = foo.begin();
+// 	push_pop_back_tests<int>();
+// 	resize_tests<int>();
+// 	insert_tests<int>();
+// 	reserve_tests<int>();
+// 	copy_swap_tests<int>();
+// 	reverse_it_tests<int>();
+// 	erase_clear_tests<int>();
+// 	max_size_tests();
+// 	awesome_tests();
+// 	push_pop_back_tests<Awesome>();
+// 	resize_tests<Awesome>();
+// 	insert_tests<Awesome>();
+// 	reserve_tests<Awesome>();
+// 	copy_swap_tests<Awesome>();
+// 	reverse_it_tests<Awesome>();
+// 	erase_clear_tests<Awesome>();
+// }
 
-//     std::cout << "<FT TEST>" << std::endl;
-    // {
-    //     std::cout << "[Starting with an empty Default constructor] ! " << std::endl << std::endl;
-    //     ft::vector<int> vec;
-    //     state(vec);
-    // }
-
-    // {
-    //     std::cout << "Now with another constructor ! " << std::endl;
-    //     //ft::vector<int> vec(7, 100);
-    //     //state(vec);
-    // }
-    // {
-    //     std::cout << "[CLASSIC USAGE] ! " << std::endl << std::endl;
-    //     ft::vector<int> vec;
-    //     std::cout << "<Adding some value> ... " << std::endl;
-        
-    //     vec.push_back(1);
-    //     vec.push_back(3);
-    //     vec.push_back(4);
-    //     vec.push_back(-1);
-    //     state(vec);
-        
-    //     std::cout << "<Now we pop the last value ...>" << std::endl;
-
-    //     vec.pop_back();
-    //     state(vec);
-
-    //     std::cout << "<And again ...>" << std::endl;
-        
-    //     vec.pop_back();
-    //     state(vec);
-    // }
-    // {
-    //     std::cout << "[MAX_SIZE TEST] ! " << std::endl << std::endl;
-    //     ft::vector<int> vec;
-        
-    //     std::cout << "Vec max_size possible : " << vec.max_size() << std::endl;
-        
-    //     std::cout << "<Adding some value> ... " << std::endl;
-
-    //     vec.push_back(1);
-    //     vec.push_back(-9);
-    //     vec.push_back(77777);
-    //     vec.push_back(42);
-
-    //     std::cout << "vec max_size possible : " << vec.max_size() << std::endl;
-    // }
-    //return 0;
-    // std::map<std::string, int> map;
-    // map.insert(std::pair<std::string, int>("cookie", 1));
-    // start = map.begin();
-    // std::cout << start->second <<std::endl;
-//}
-
-// int		main(void)
-// {
-// 	ft::stack<int> ctnr;
-
-// 	ctnr.push(21);
-// 	ctnr.push(42);
-// 	ctnr.push(1337);
-// 	ctnr.push(19);
-// 	ctnr.push(0);
-// 	ctnr.push(183792);
-
-// 	ft::stack<int> stck(ctnr);
-// 	ft::stack<int> stck2(ctnr);
-
-//     std::cout << "!" << std::endl;
-//     if (stck == stck2)
-//         std::cout << "NANI" << std::endl;
-    
-#include <list>
-//typedef std::map<T1, T2>::value_type T3;
 int main()
 {
-    ft::map<int, std::string> mp;
-    ft::map<int, std::string>::iterator it(mp.begin());
-    ft::map<int, std::string>::const_iterator ite(mp.end());
-
-    mp.insert(ft::make_pair(1, "xd"));
-    mp.insert(ft::make_pair(2, "xx"));
-    mp.insert(ft::make_pair(3, "ff"));
-    it++;
-    mp.erase(it);
-    return 0;
+    ACCESS::vector<int> test(21,12);
+    test.insert(test.end(), test.begin(), test.end());
 }

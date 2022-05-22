@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 15:57:46 by shyrno            #+#    #+#             */
-/*   Updated: 2022/05/19 20:02:27 by chly-huc         ###   ########.fr       */
+/*   Updated: 2022/05/22 15:27:42 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ namespace ft
             void reserve(size_type n) // Reserve place (Missing lengt_error exception if n > max_capacity)
             {
                 if (n > max_size())
-                    std::cout << "Error, N is hella too big" << std::endl;
+                    throw std::length_error("vector::reserve");
                 if (n > m_capacity)
                     _realloc(n);
             }
@@ -173,7 +173,7 @@ namespace ft
                 }
                 else
                 {
-                    _realloc(n);
+                    _realloc(getCapacity(n));
                     for(size_type i = 0; i < n - m_size; i++)
                         m_alloc.construct(container + m_size + i, val);
                     m_size = n;
@@ -322,7 +322,7 @@ namespace ft
             {
                 size_type index = position._ptr - container;
                 if (m_size + n > m_capacity)
-                    _realloc(m_size + n);
+                    _realloc(getCapacity(m_capacity + n));
                 for (size_type i = m_size; i > index; i--)
 				    m_alloc.construct(container + i + n - 1, container[i - 1]);
                 for (size_type i = index; i < n + index; i++)
@@ -334,19 +334,13 @@ namespace ft
             {
                 size_type index = position._ptr - container;
                 size_type lenght = getLenght(first, last);
-                (void)last;
-                (void)first;
-                (void)position;
-                (void)index;
-                (void)lenght;
                 if (m_size + lenght > m_capacity)
-                    _realloc(m_size + lenght);
+                    _realloc(getCapacity(m_capacity + lenght));
                 for (size_type i = m_size; i > index; i--)
                 {
                     m_alloc.destroy(container + i + lenght - 1);
 				    m_alloc.construct(container + i + lenght - 1, container[i - 1]);
                 }
-                //std::cout << "first == " << *first << std::endl;
                 size_type i = index;
                 while (first != last)
                 {
@@ -376,7 +370,7 @@ namespace ft
                 for (size_type i = 0; i < m_size; i++) 
                     m_alloc.construct(tmp + i, container[i]);
                 destroy_container();
-                m_capacity = getCapacity(n);
+                m_capacity = n;
                 container = tmp;
 		    }
             void destroy_container()
@@ -385,7 +379,9 @@ namespace ft
                 {
                     for(size_type i = 0; i < m_size; i++)
                         m_alloc.destroy(container + i);
-                    m_alloc.deallocate(container, m_capacity);
+                    if (m_capacity)
+                        m_alloc.deallocate(container, m_capacity);
+                    container = NULL;
                 }
             }  
             iterator erase(iterator position)

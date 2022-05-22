@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 04:58:44 by shyrno            #+#    #+#             */
-/*   Updated: 2022/05/21 20:01:23 by chly-huc         ###   ########.fr       */
+/*   Updated: 2022/05/22 13:14:12 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,6 +218,7 @@ namespace ft
                     }
                     if (comp(val.first, tmp->content.first))
                     {
+                        //std::cout << "Here 1\n" << std::endl;
                         if (!tmp->left)
                         {
                             tmp->left = new_node(val);
@@ -287,11 +288,14 @@ namespace ft
             size_type erase(const key_type & k)
             {
                 btree *node;
+                size_type size = m_size;
 
                 node = root;
                 if (root)
                     _erase(node, k);
-                return 1;
+                if (size != m_size)
+                    return 1;
+                return 0;
             }
             void erase(iterator position)
             {
@@ -316,27 +320,41 @@ namespace ft
             btree *_erase(btree * node, const key_type & k)
             {
                 btree *tmp;
-                
-                if (k < node->content.first)
+                if (!node)
+                    return NULL;
+                if (k == node->content.first && node == root && !node->left)
+                {
+                    if (node->left)
+                        node = node->left;
+                    else
+                        node = node->right;
+                    free_node(root);
+                    root = node;
+                    return node;
+                }
+                if (comp(k, node->content.first))
                     node->left = _erase(node->left, k);
-                else if (k > node->content.first)
-                        node->right = _erase(node->right, k);
+                else if (comp(node->content.first, k))
+                    node->right = _erase(node->right, k);
                 else
                 {
                     if (!node->left && !node->right)
+                    {
+                        free_node(node);
                         return NULL;
+                    }
                     else if (node->left == NULL)
                     {
                         tmp = node->right;
-                        m_alloc.destroy(&node->content);
-			            o_alloc.deallocate(node, 1);
+                        node->right->daddy = node->daddy;
+                        free_node(node);
                         return tmp;
                     }
                     else if (node->right == NULL)
                     {
                         tmp = node->left;
-                        m_alloc.destroy(&node->content);
-			            o_alloc.deallocate(node, 1);
+                        node->left->daddy = node->daddy;
+                        free_node(node);
                         return tmp;
                     }
                     else
@@ -346,7 +364,6 @@ namespace ft
                             tmp = tmp->left;
                         m_alloc.construct(&node->content, tmp->content);
                         node->right = _erase(node->right, tmp->content.first);
-                        m_size--;
                     }
                 }
                 return node;
@@ -400,6 +417,7 @@ namespace ft
             }
             void free_node(btree *node)
 			{
+                m_size--;
 				if(node == NULL)
 					return;
 				m_alloc.destroy(&node->content);

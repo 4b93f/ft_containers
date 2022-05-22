@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shyrno <shyrno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 22:43:22 by shyrno            #+#    #+#             */
-/*   Updated: 2021/12/29 22:49:20 by shyrno           ###   ########.fr       */
+/*   Updated: 2022/05/22 14:21:49 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,3 +26,4 @@
 #include <vector>
 #include <map>
 #include <stdlib.h>
+#include <stdexcept>

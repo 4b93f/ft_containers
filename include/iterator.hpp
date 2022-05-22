@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 09:04:27 by shyrno            #+#    #+#             */
-/*   Updated: 2022/05/21 17:31:30 by chly-huc         ###   ########.fr       */
+/*   Updated: 2022/05/22 15:02:15 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -427,7 +427,7 @@ namespace ft
 			    return reverse_iterator(base() + n);
 		    }
             template <class U>
-            difference_type operator-(const reverse_iterator<U> & x) const 
+            difference_type operator-(const reverse_iterator<U> & x)
             {
 			    return (this->base() - x.base()) * -1; 
 		    }
