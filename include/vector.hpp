@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 15:57:46 by shyrno            #+#    #+#             */
-/*   Updated: 2022/05/22 15:27:42 by chly-huc         ###   ########.fr       */
+/*   Updated: 2022/05/24 15:44:00 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,13 @@ namespace ft
             }
             vector& operator=(const vector & x )
 			{
-				this->container = x.container;
+                if (*this == x)
+					return (*this);
+                this->destroy_container();
+                this->m_alloc = x.m_alloc;
                 this->m_size = x.m_size;
                 this->m_capacity = x.m_capacity;
+                this->container = NULL;
 				if (m_capacity)
                     this->container = m_alloc.allocate(m_capacity);
                 for(size_type i = 0; i < m_size; i++)
@@ -85,10 +89,10 @@ namespace ft
 			}
             vector(const vector & x) // Copy
             {
-                this->container = x.container;
+                this->m_alloc = x.m_alloc;
                 this->m_size = x.m_size;
-                this->m_capacity = x.m_capacity;
-                m_alloc = x.m_alloc;
+                this->m_capacity = x.m_size;
+                this->container = NULL;
                 if (m_capacity)
                     this->container = m_alloc.allocate(m_capacity);
                 for(size_type i = 0; i < m_size; i++)
@@ -229,7 +233,6 @@ namespace ft
                 for(size_type i = 0; i < m_size; i++)
                     m_alloc.destroy(container + i);
                 m_size = 0;
-                m_capacity = 0;
             }
             void swap(vector& x)
             {
@@ -306,8 +309,8 @@ namespace ft
             iterator insert(iterator position, const value_type& val)
             {
                 size_type index = position._ptr - container;
-                if (m_size + 1> m_capacity)
-				    _realloc(m_size + 1);
+                if (m_size + 1  > m_capacity)
+				    container = realloc(container, getCapacity(m_capacity + 1));
                 for (size_type i = m_size; i > index; i--)
                 {
                     m_alloc.destroy(container + i);
@@ -320,9 +323,16 @@ namespace ft
             }
             void insert(iterator position, size_type n, const value_type& val)
             {
+                if (n == 0)
+                    return;
                 size_type index = position._ptr - container;
                 if (m_size + n > m_capacity)
-                    _realloc(getCapacity(m_capacity + n));
+                {
+                    if (m_size * 2 > m_size + n)
+                        container = realloc(container, m_capacity * 2);
+                    else
+                        container = realloc(container, (m_capacity + n));
+                }
                 for (size_type i = m_size; i > index; i--)
 				    m_alloc.construct(container + i + n - 1, container[i - 1]);
                 for (size_type i = index; i < n + index; i++)
@@ -335,21 +345,39 @@ namespace ft
                 size_type index = position._ptr - container;
                 size_type lenght = getLenght(first, last);
                 if (m_size + lenght > m_capacity)
-                    _realloc(getCapacity(m_capacity + lenght));
+                    container = realloc(container, getCapacity(m_capacity + lenght));
                 for (size_type i = m_size; i > index; i--)
                 {
-                    m_alloc.destroy(container + i + lenght - 1);
+                    if (lenght + i - 1 < m_size)
+                        m_alloc.destroy(container + i + lenght - 1);
 				    m_alloc.construct(container + i + lenght - 1, container[i - 1]);
                 }
+                
                 size_type i = index;
                 while (first != last)
                 {
-                    m_alloc.destroy(container + i);
+                    if (lenght + i - 1 < m_size)
+                        m_alloc.destroy(container + i);
                     m_alloc.construct(container + i, *first);
                     i++;
                     first++;
                 }
                 m_size += lenght;
+            }
+            T* realloc(T *rea, size_type n)
+            {
+                pointer tmp = NULL;
+                if (n > 0)
+                    tmp = m_alloc.allocate(n);
+                for (size_type i = 0; i < m_size; i++) 
+                    m_alloc.construct(tmp + i, rea[i]);
+                for(size_type i = 0; i < m_size; i++)
+					m_alloc.destroy(rea + i);
+				if(m_capacity)
+					m_alloc.deallocate(rea, m_capacity);
+				rea = NULL;
+                m_capacity = n;
+                return tmp;
             }
             size_type getCapacity(size_type size)
             {
@@ -362,7 +390,7 @@ namespace ft
             }
             void _realloc(size_type n)
             {
-                pointer tmp;
+                pointer tmp = NULL;
                 if (n > 0)
                     tmp = m_alloc.allocate(getCapacity(n));
                 else
@@ -408,7 +436,7 @@ namespace ft
                 for (size_type i = start; i < m_size - lenght; i++)
                 {
                     m_alloc.construct(container + i, container[shift_index]);
-                    m_alloc.destroy(container + shift_index + 1);
+                    m_alloc.destroy(container + shift_index);
                     shift_index++;
                 }
                 m_size -= lenght;

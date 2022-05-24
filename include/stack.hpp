@@ -3,24 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   stack.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shyrno <shyrno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 03:49:40 by shyrno            #+#    #+#             */
-/*   Updated: 2022/01/11 19:37:38 by shyrno           ###   ########.fr       */
+/*   Updated: 2022/05/22 15:39:50 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "iostream"
-#include "string"
-#include <memory>
-#include <algorithm>
-#include <cstddef>
-#include <tgmath.h>
-#include "vector"
-#include <cstring>
-#include "vector.hpp"
-#include "stack"
-
+#ifndef STACK_HPP
+#define STACK_HPP
+#include "header.hpp"
 
 namespace ft
 {
@@ -116,4 +108,5 @@ namespace ft
             size_type m_size;
     };
 }
-  
+
+#endif
