@@ -6,11 +6,12 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 15:58:40 by shyrno            #+#    #+#             */
-/*   Updated: 2022/05/24 16:28:59 by chly-huc         ###   ########.fr       */
+/*   Updated: 2022/06/29 17:50:50 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/header.hpp"
+#include <sys/time.h>
 
 template <class T>
 void	print(ACCESS::vector<ACCESS::vector<T> >& lst)
@@ -74,23 +75,23 @@ void	print_vector(ACCESS::vector<T> &test)
 template <class T>
 void	push_pop_back_tests(void)
 {
-	std::cout << std::endl << "PUSH BACK & POP BACK TESTS" << std::endl;
+	//std::cout << std::endl << "PUSH BACK & POP BACK TESTS" << std::endl;
 	ACCESS::vector<T> test;
 
-	std::cout << "Empty ? " << test.empty() << " / Capacity : " << test.capacity() << " / Size : " << test.size() << std::endl;
+	//std::cout << "Empty ? " << test.empty() << " / Capacity : " << test.capacity() << " / Size : " << test.size() << std::endl;
 	for (size_t i = 0; i < 51; i++)
 	{
 		test.push_back(i);
-		std::cout << test.size() << ": " << test.capacity() << " - ";
-		if (!(i % 10) && i != 0)
-			std::cout << std::endl;
+		//if (!(i % 10) && i != 0)
+		//std::cout << test.size() << ": " << test.capacity() << " - ";
+			//std::cout << std::endl;
 	}
-	print_vector<T>(test);
+	//print_vector<T>(test);
 	test.pop_back();
 	test.pop_back();
 	test.pop_back();
 	test.pop_back();
-	print_vector<T>(test);
+	//print_vector<T>(test);
 }
 
 template <class T>
@@ -271,23 +272,50 @@ void	awesome_tests(void)
 	std::cout << "end awesome test" << std::endl;
 }
 
+void fat_as_fuck()
+{
+	int i = -1;
+	ACCESS::vector<int> test;
+	srand(time(0));
+	while(++i < 100000)
+		test.push_back(rand());
+	print_vector(test);
+	return ;
+}
+using namespace std::chrono;
+
 int main()
 {
-	push_pop_back_tests<int>();
-	resize_tests<int>();
-	insert_tests<int>();
-	reserve_tests<int>();
-	copy_swap_tests<int>();
-	reverse_it_tests<int>();
-	erase_clear_tests<int>();
-	max_size_tests();
-	awesome_tests();
-	push_pop_back_tests<Awesome>();
-	resize_tests<int>();
-	insert_tests<Awesome>();
-	reserve_tests<Awesome>();
-	copy_swap_tests<Awesome>();
-	reverse_it_tests<Awesome>();
-	erase_clear_tests<Awesome>();
+	ft::vector<std::string> lol(10, "xd");
+
+	ft::vector<std::string>::iterator it(lol.begin());
+	ft::vector<std::string>::iterator ite(lol.end());
+	
+	ite--;
+	std::cout << it - ite << std::endl;
+	struct timeval begin, end;
+    gettimeofday(&begin, 0);
+	// push_pop_back_tests<int>();
+	// resize_tests<int>();
+	// insert_tests<int>();
+	// reserve_tests<int>();
+	// copy_swap_tests<int>();
+	// reverse_it_tests<int>();
+	// erase_clear_tests<int>();
+	// max_size_tests();
+	// awesome_tests();
+	// push_pop_back_tests<Awesome>();
+	// resize_tests<int>();
+	// insert_tests<Awesome>();
+	// reserve_tests<Awesome>();
+	// copy_swap_tests<Awesome>();
+	// reverse_it_tests<Awesome>();
+	// erase_clear_tests<Awesome>();
+	fat_as_fuck();
+	gettimeofday(&end, 0);
+    long seconds = end.tv_sec - begin.tv_sec;
+    long microseconds = end.tv_usec - begin.tv_usec;
+    double elapsed = seconds + microseconds*1e-6;
+    printf("Time measured: %.10f seconds.\n", elapsed);
 }
 
