@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 15:58:40 by shyrno            #+#    #+#             */
-/*   Updated: 2022/06/29 17:50:50 by chly-huc         ###   ########.fr       */
+/*   Updated: 2022/07/14 11:41:38 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,37 +247,12 @@ void	max_size_tests(void)
 	std::cout << test5.max_size() << std::endl;
 }
 
-void	awesome_tests(void)
-{
-	std::cout << std::endl << "AWESOME TESTS" << std::endl;
-	ACCESS::vector<Awesome> test(21, 12);
-	print_vector<Awesome>(test);
-	ACCESS::vector<Awesome> test2;
-	print_vector<Awesome>(test2);
-	test2.push_back(12);
-	test2.push_back(8);
-	test2.push_back(16);
-	print_vector<Awesome>(test2);
-	std::cout << "SAME ?" << (test.begin() + 1 == test2.begin() + 1) << std::endl;
-	test.assign(test2.begin(), test2.end());
-	print_vector<Awesome>(test);
-	test = test2;
-	print_vector<Awesome>(test);
-	std::cout << "SAME ?" << (test.begin() + 1 == test2.begin() + 1) << std::endl;
-	test.insert(test.end(), test2.begin(), test2.end());
-	print_vector<Awesome>(test);
-	test.insert(test.begin(), test2.begin(), test2.end());
-	test2 = test;
-	print_vector<Awesome>(test);
-	std::cout << "end awesome test" << std::endl;
-}
-
 void fat_as_fuck()
 {
 	int i = -1;
 	ACCESS::vector<int> test;
 	srand(time(0));
-	while(++i < 100000)
+	while(++i < 10000)
 		test.push_back(rand());
 	print_vector(test);
 	return ;
@@ -295,22 +270,21 @@ int main()
 	std::cout << it - ite << std::endl;
 	struct timeval begin, end;
     gettimeofday(&begin, 0);
-	// push_pop_back_tests<int>();
-	// resize_tests<int>();
-	// insert_tests<int>();
-	// reserve_tests<int>();
-	// copy_swap_tests<int>();
-	// reverse_it_tests<int>();
-	// erase_clear_tests<int>();
-	// max_size_tests();
-	// awesome_tests();
-	// push_pop_back_tests<Awesome>();
-	// resize_tests<int>();
-	// insert_tests<Awesome>();
-	// reserve_tests<Awesome>();
-	// copy_swap_tests<Awesome>();
-	// reverse_it_tests<Awesome>();
-	// erase_clear_tests<Awesome>();
+	push_pop_back_tests<int>();
+	resize_tests<int>();
+	insert_tests<int>();
+	reserve_tests<int>();
+	copy_swap_tests<int>();
+	reverse_it_tests<int>();
+	erase_clear_tests<int>();
+	max_size_tests();
+	push_pop_back_tests<Awesome>();
+	resize_tests<int>();
+	insert_tests<Awesome>();
+	reserve_tests<Awesome>();
+	copy_swap_tests<Awesome>();
+	reverse_it_tests<Awesome>();
+	erase_clear_tests<Awesome>();
 	fat_as_fuck();
 	gettimeofday(&end, 0);
     long seconds = end.tv_sec - begin.tv_sec;
@@ -319,3 +293,119 @@ int main()
     printf("Time measured: %.10f seconds.\n", elapsed);
 }
 
+//#include <iostream>
+// #include <string>
+// #include <deque>
+// #if 1 //CREATE A REAL STL EXAMPLE
+// 	#include <map>
+// 	#include <stack>
+// 	#include <vector>
+// 	namespace ft = std;
+// #else
+// 	#include <map.hpp>
+// 	#include <stack.hpp>
+// 	#include <vector.hpp>
+// #endif
+
+// #include <stdlib.h>
+
+// #define MAX_RAM 4294967296
+// #define BUFFER_SIZE 4096
+// struct Buffer
+// {
+// 	int idx;
+// 	char buff[BUFFER_SIZE];
+// };
+
+
+// #define COUNT (MAX_RAM / (int)sizeof(Buffer))
+
+// template<typename T>
+// class MutantStack : public ft::stack<T>
+// {
+// public:
+// 	MutantStack() {}
+// 	MutantStack(const MutantStack<T>& src) { *this = src; }
+// 	MutantStack<T>& operator=(const MutantStack<T>& rhs) 
+// 	{
+// 		this->c = rhs.c;
+// 		return *this;
+// 	}
+// 	~MutantStack() {}
+
+// 	typedef typename ft::stack<T>::container_type::iterator iterator;
+
+// 	iterator begin() { return this->c.begin(); }
+// 	iterator end() { return this->c.end(); }
+// };
+
+// int main(int argc, char** argv) {
+// 	if (argc != 2)
+// 	{
+// 		std::cerr << "Usage: ./test seed" << std::endl;
+// 		std::cerr << "Provide a seed please" << std::endl;
+// 		std::cerr << "Count value:" << COUNT << std::endl;
+// 		return 1;
+// 	}
+// 	const int seed = atoi(argv[1]);
+// 	srand(seed);
+
+// 	ft::vector<std::string> vector_str;
+// 	ft::vector<int> vector_int;
+// 	ft::stack<int> stack_int;
+// 	ft::vector<Buffer> vector_buffer;
+// 	ft::stack<Buffer, std::deque<Buffer> > stack_deq_buffer;
+// 	ft::map<int, int> map_int;
+
+// 	for (int i = 0; i < COUNT; i++)
+// 	{
+// 		vector_buffer.push_back(Buffer());
+// 	}
+
+// 	for (int i = 0; i < COUNT; i++)
+// 	{
+// 		const int idx = rand() % COUNT;
+// 		vector_buffer[idx].idx = 5;
+// 	}
+// 	ft::vector<Buffer>().swap(vector_buffer);
+
+// 	try
+// 	{
+// 		for (int i = 0; i < COUNT; i++)
+// 		{
+// 			const int idx = rand() % COUNT;
+// 			vector_buffer.at(idx);
+// 			std::cerr << "Error: THIS VECTOR SHOULD BE EMPTY!!" <<std::endl;
+// 		}
+// 	}
+// 	catch(const std::exception& e)
+// 	{
+// 		//NORMAL ! :P
+// 	}
+	
+// 	for (int i = 0; i < COUNT; ++i)
+// 	{
+// 		map_int.insert(ft::make_pair(rand(), rand()));
+// 	}
+
+// 	int sum = 0;
+// 	for (int i = 0; i < 10000; i++)
+// 	{
+// 		int access = rand();
+// 		sum += map_int[access];
+// 	}
+// 	std::cout << "should be constant with the same seed: " << sum << std::endl;
+
+// 	{
+// 		ft::map<int, int> copy = map_int;
+// 	}
+// 	MutantStack<char> iterable_stack;
+// 	for (char letter = 'a'; letter <= 'z'; letter++)
+// 		iterable_stack.push(letter);
+// 	for (MutantStack<char>::iterator it = iterable_stack.begin(); it != iterable_stack.end(); it++)
+// 	{
+// 		std::cout << *it;
+// 	}
+// 	std::cout << std::endl;
+// 	return (0);
+// }

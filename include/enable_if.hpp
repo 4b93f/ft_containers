@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   enable_if.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shyrno <shyrno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 00:07:31 by shyrno            #+#    #+#             */
-/*   Updated: 2021/11/29 00:07:59 by shyrno           ###   ########.fr       */
+/*   Updated: 2022/07/14 11:14:49 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@ namespace ft
 	struct enable_if {};
 
 	template <class T>
-	struct enable_if<true, T> {typedef T type;};
+	struct enable_if<true, T>
+	{
+		typedef T type;
+	};
 }
 
 #endif

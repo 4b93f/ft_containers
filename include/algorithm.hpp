@@ -6,13 +6,12 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 05:37:03 by shyrno            #+#    #+#             */
-/*   Updated: 2022/05/19 17:25:03 by chly-huc         ###   ########.fr       */
+/*   Updated: 2022/07/14 11:17:39 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ALGORITHM_HPP
 #define ALGORITHM_HPP
-#include <algorithm>
 namespace ft
 {
     template< class InputIt1, class InputIt2 >

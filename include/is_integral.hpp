@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_integral.hpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shyrno <shyrno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 23:55:56 by shyrno            #+#    #+#             */
-/*   Updated: 2021/11/29 00:12:28 by shyrno           ###   ########.fr       */
+/*   Updated: 2022/07/14 11:16:40 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 namespace ft
 {
-	template <class T>
+	template <typename T>
 	struct is_integral
 	{
 		static const bool value = false;

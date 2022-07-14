@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shyrno <shyrno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/24 14:11:12 by shyrno            #+#    #+#             */
-/*   Updated: 2022/04/25 06:06:16 by shyrno           ###   ########.fr       */
+/*   Updated: 2022/07/14 11:44:25 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ namespace ft
         if (node->right)
             return min_value(node->right);
         btree<T> *tmp = node->daddy;
-        while (tmp && node == tmp->right) // THIS IS ?????????????????
+        while (tmp && node == tmp->right)
         {
             node = tmp;
             tmp = tmp->daddy;
@@ -71,7 +71,7 @@ namespace ft
         if (node->left)
             return max_value(node->left);
         btree<T> *tmp = node->daddy;
-        while (tmp && node == tmp->left) // THIS IS ?????????????????
+        while (tmp && node == tmp->left
         {
             node = tmp;
             tmp = tmp->daddy;
